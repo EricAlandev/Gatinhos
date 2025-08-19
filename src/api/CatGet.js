@@ -74,7 +74,6 @@ export function SlideBV () {
 
   return {passo}
 }
-
 export function FalamDnos () {
   //Page /bemvindo - parte das avaliações
   const [falam, setFalam] = useState([]);
@@ -95,4 +94,56 @@ export function FalamDnos () {
   }, []);
 
 return {falam}
+}
+
+export function Doacoes () {
+  //Page /doacoes - parte das avaliações
+  const [doacao, setDoacao] = useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:3000/doacoes')
+      .then(res => {
+        const promises = res.data.map(cat =>
+            ({
+              id: cat.id,
+              image: cat.foto_url,
+              descricao: cat.descricao
+            })
+
+        );
+        setDoacao(promises);
+      })
+      .catch(() => 'error');
+  }, []);
+
+  const GetById = (id) => doacao.find((d) => d.id === id)
+
+
+return {doacao, GetById}
+}
+
+export function Remedios () {
+  //Page /doacoes - parte das avaliações
+  const [remedio, setRemedio] = useState([]);
+  useEffect(() => {
+    axios.get('http://localhost:3000/remedios')
+      .then(res => {
+        const promises = res.data.map(cat =>
+            ({
+              id: cat.id,
+              imageT: cat.imaget,
+              imageB: cat.imageb,
+              titulo: cat.titulo,
+              descricao: cat.remedio
+            })
+
+        );
+        setRemedio(promises);
+      })
+      .catch(() => 'error');
+  }, []);
+
+  const GetById = (id) => remedio.find((d) => d.id == id)
+
+
+return {remedio, GetById}
 }

@@ -74,7 +74,7 @@ const Header = () => {
         onClick={() => closePopUp()}
         className="flex items-center gap-2">
             <img src="/assets/header/Paw.png" alt="" className=" max-h-[25px]" />
-            <p className={`font-[Inter] font-[400] text-[14.5px] text-[#333333]`}>Doações</p>
+            <Link to={'/doacoes'} className={`font-[Inter] font-[400] text-[14.5px] text-[#333333]`}>Doações</Link>
         </div>
     </li>
 

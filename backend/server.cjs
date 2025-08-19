@@ -58,6 +58,32 @@ app.get("/falamDnos", (req, res) => {
   });
 });
 
+app.get("/doacoes", (req, res) => {
+  console.log("Recebida requisição para /falamDnos");
+  connection.query("SELECT * FROM doacoes", (err, results) => {
+    if (err) {
+      console.log("Erro SQL:", err);
+      return res.status(500).json({ error: err.message });
+    }
+    console.log("Resultados:", results);
+    res.json(results);
+  });
+});
+
+app.get("/remedios", (req, res) => {
+  console.log("Recebida requisição para /remedios");
+  connection.query("SELECT * FROM remedios", (err, results) => {
+    if (err) {
+      console.log("Erro SQL:", err);
+      return res.status(500).json({ error: err.message });
+    }
+    console.log("Resultados:", results);
+    res.json(results);
+  });
+});
+
+
+
 
 // GET: gato específico pelo ID
 app.get("/cats/:id", (req, res) => {
