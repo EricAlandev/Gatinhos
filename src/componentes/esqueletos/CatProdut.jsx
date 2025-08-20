@@ -55,6 +55,9 @@ const CatProduct = () => {
                 setPopUp(false)
                }
                ></div>
+
+        {/*array de gatos */}
+        <div className='flex flex-col md:grid md:grid-cols-2 md:grid-rows-2 md:max-w-[1420px] md:mx-auto md:mt-[20px]'>
         {catList.map( (cat) => (
             
             <div 
@@ -62,13 +65,14 @@ const CatProduct = () => {
           className='relative max-w-[350px] mx-auto pt-[35px]'
           >
             <img src={cat.image} alt=""
-            className='min-w-[350px]  max-h-[225px]'
+            className='min-w-[350px]  max-h-[225px] md:scale-[1.3]'
              /> 
-
-            <section className='flex items-center gap-2.5 mt-[10px]'>
-                <h2 className='font-[Inter] font-medium text-[#0A0A0A] text-[16.5px]'>{cat.nome}</h2>
+            
+            {/*Nome - raça, idade */}
+            <section className='flex items-center gap-2.5 mt-[10px] md:mt-[42px] md:ml-[-47px]'>
+                <h2 className='font-[Inter] font-medium text-[#0A0A0A] text-[16.5px] md:text-[18px]'>{cat.nome}</h2>
                 <h2 className={` font-[Montserrat] font-medium 
-                 text-[15px] border-b-[0.5px]
+                 text-[15px] md:text-[18px] border-b-[0.5px]
                 ${cat.breed === 'Siamês' ? 'text-[black]' : 
                   cat.breed === 'Maine Coon' ? 'text-[brown]' : 
                   cat.breed === 'Ragdoll' ? 'text-[gray]' : 
@@ -87,12 +91,12 @@ const CatProduct = () => {
             <>
                 {/*Feito para ficar sobre a imagem e ao clicar se criar o popUp 
                 */}
-                <span className='absolute top-57 w-full pt-[5px] pb-[4px] bg-[black] opacity-75
+                <span className='absolute top-57 md:top-65 md:left-[-51.5px] w-full md:w-[455px] pt-[5px] pb-[4px] bg-[black] opacity-75
                 '
                 >.</span>
 
-                <h2 className=' absolute top-57 w-full pt-[5px] pb-[2px]
-                text-[#D1D1D1] text-center text-[16px] z-10'
+                <h2 className=' absolute top-57 md:top-64.5 md:left-[-35px] w-full md:w-[421.5px]  pt-[5px] pb-[2px]
+                text-[#D1D1D1] text-center text-[16px] z-10 cursor-pointer'
                 onClick={() => (
                     openPopUp(cat)
                 )}
@@ -120,17 +124,17 @@ const CatProduct = () => {
 
                     {/*PopUp em si */}
                     <div className='relative 
-                    w-full mx-4 
+                    w-full md:max-w-[650px] mx-4 
                     bg-[#FAFAFA] z-50'>
                         
                         <div className='flex justify-between items-center'>
                             <div>
                                 <h2 className='ml-[20px] pt-[15px] pl-[10px]
-                                font-[Inter] font-medium text-[black] text-[21.5px] underline'>{popUpImage.nome}</h2> {/*breed pra raça */}
+                                font-[Inter] font-medium text-[black] text-[21.5px] underline'>{popUpImage.nome}</h2> 
                                 
                                 <div className='flex'>
                                     <h2 className='ml-[20px] pl-[10px]  
-                                    font-[Inter] font-medium text-[black] text-[16.5px]'>{popUpImage.breed}</h2>
+                                    font-[Inter] font-medium text-[black] text-[16.5px]'>{popUpImage.breed}</h2> {/*breed = raça */}
 
                                     <h2 className=' pl-[5px]  
                                     font-[Montserrat] font-bold text-[black] text-[16.5px]'>- {popUpImage.idade}</h2>
@@ -138,7 +142,7 @@ const CatProduct = () => {
                             </div>
 
                             <img src="/assets/close.png" alt=""
-                            className='min-h-[26px] pr-[10px]'
+                            className='min-h-[26px] pr-[10px] md:pr-[20px] cursor-pointer'
                             onClick={() => (
                                 closePopUp()
                             )}
@@ -150,11 +154,11 @@ const CatProduct = () => {
                         className='min-w-[300px] max-w-[340px] min-h-[250px] max-h-[250px]
                          mx-auto mt-[15px] pb-[20px]'/>
 
-                        <p className='ml-[30px] text-[18.5px]'>{popUpImage?.description}</p>
+                        <p className='md:max-w-[450px] md:mx-auto ml-[30px] text-[18.5px] md:text-[20px]'>{popUpImage?.description}</p>
 
                         {/*Botão de adoção */}
 
-                        <div className='flex justify-center pt-[15px] pb-[15px]'>
+                        <div className='flex justify-center pt-[15px] md:pt-[20px] pb-[15px]  md:pb-[20px]'>
                             <button className=' min-w-[150px] p-1.5 bg-[#242626] rounded-[8px] font-bold text-[white] 
                             '>
                                 Adotar
@@ -171,10 +175,11 @@ const CatProduct = () => {
 
 
             {cat.description && (
-                <p className='mt-[10px] font-[Inter] text-[14.5px]'>{cat.description}</p>
+                <p className='mt-[10px] md:ml-[-47px] md:pb-[15px] font-[Inter] md:font-light text-[14.5px] md:text-[15.5px]'>{cat.description}</p>
             )}
           </div>
         ))}
+        </div>
      </>
     )
 }

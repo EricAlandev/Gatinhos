@@ -9,25 +9,27 @@ const DoacUnicas = () => {
 
     return(
      <main>
-        <section className="flex">
+        <section className="flex md:max-w-[1200px] md:mx-auto">
             <h2 className="w-full ml-[10px] border-b-[3px] border-[#373939]"></h2>
             <h1 className=" inline-block min-w-[200px] mt-[35px] pb-[7px] font-[Inter] font-medium text-[#373939] text-center text-[20px] border-b-[3px] border-[gray]">DOAÇÕES <strong>ÚNICAS</strong></h1>
             <h2 className="w-full mr-[10px] border-b-[3px] border-[#373939]"></h2>
         </section>
 
-        <section>
+        <section className="md:flex md:max-w-[1200px] md:mx-auto md:gap-102.5">
             <img src={GetById(3)?.image} alt=""
             className=" mx-auto mt-[20px]"
              />
-            <p className="min-w-[200px] mt-[20px] ml-4 mr-4 
-               font-[Inter] font-[400] text-[17.5px]
+            <p className="min-w-[200px] md:max-w-[400px] mt-[20px] md:mt-[85px] ml-4 mr-4 
+               md:ml-0 md:mr-0  font-[Inter] font-[400] text-[17.5px]
              ">{GetById(3)?.descricao}</p>
         </section>
 
-        <section>
+        <section className="md:flex md:max-w-[270px] md:mx-auto">
             <DoeEsq 
             legenda='doar'
-            quantia='QUALQUER VALOR'
+            quantia='QUALQUER'
+            quantia2='Valor'
+            tamanho='md:min-w-[250px]'
             url='/assets/doacoes/DoeAgora.svg'
             />
         </section>
