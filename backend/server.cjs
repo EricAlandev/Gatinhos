@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const connection = require("./backend/db.cjs");
+const connection = require("./db.cjs");
 
 // Middleware
 app.use(express.json());
