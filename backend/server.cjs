@@ -18,66 +18,14 @@ app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // sem conteúdo
 
 // Rota raiz: apenas retorna uma mensagem para confirmar que a API está ativa
 app.get("/", (req, res) => {
-  res.redirect("/cats");
+  res.json({ message: "API ativa! Use /cats para ver os dados." });
 });
 
-
 // ROTAS DA API
-
 app.get("/cats", (req, res) => {
   connection.query("SELECT * FROM gatinhos", (err, results) => {
     if (err) {
       console.error("Erro /cats:", err);
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
-});
-
-app.get("/sbemvindo", (req, res) => {
-  connection.query("SELECT * FROM bemvindo", (err, results) => {
-    if (err) {
-      console.error("Erro /sbemvindo:", err);
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
-});
-
-app.get("/passo", (req, res) => {
-  connection.query("SELECT * FROM passo", (err, results) => {
-    if (err) {
-      console.error("Erro /passo:", err);
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
-});
-
-app.get("/falamDnos", (req, res) => {
-  connection.query("SELECT * FROM falamDnos", (err, results) => {
-    if (err) {
-      console.error("Erro /falamDnos:", err);
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
-});
-
-app.get("/doacoes", (req, res) => {
-  connection.query("SELECT * FROM doacoes", (err, results) => {
-    if (err) {
-      console.error("Erro /doacoes:", err);
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
-});
-
-app.get("/remedios", (req, res) => {
-  connection.query("SELECT * FROM remedios", (err, results) => {
-    if (err) {
-      console.error("Erro /remedios:", err);
       return res.status(500).json({ error: err.message });
     }
     res.json(results);
@@ -99,6 +47,41 @@ app.post("/cats", (req, res) => {
   connection.query(sql, [nome, raca, idade, foto_ulr], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.status(201).json({ id: results.insertId, nome, raca, idade, foto_ulr });
+  });
+});
+
+app.get("/sbemvindo", (req, res) => {
+  connection.query("SELECT * FROM bemvindo", (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+app.get("/passo", (req, res) => {
+  connection.query("SELECT * FROM passo", (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+app.get("/falamDnos", (req, res) => {
+  connection.query("SELECT * FROM falamDnos", (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+app.get("/doacoes", (req, res) => {
+  connection.query("SELECT * FROM doacoes", (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+app.get("/remedios", (req, res) => {
+  connection.query("SELECT * FROM remedios", (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
   });
 });
 
