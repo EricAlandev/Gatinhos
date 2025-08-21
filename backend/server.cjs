@@ -18,8 +18,9 @@ app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // sem conteúdo
 
 // Rota raiz: apenas retorna uma mensagem para confirmar que a API está ativa
 app.get("/", (req, res) => {
-  res.json({ message: "API rodando! Acesse /cats para ver os gatinhos." });
+  res.redirect("/cats");
 });
+
 
 // ROTAS DA API
 
