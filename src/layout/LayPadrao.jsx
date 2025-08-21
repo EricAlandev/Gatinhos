@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom"
-import Header from "../componentes/parteLay/header"
+import Header from "../componentes/parteLay/Header"
 import Footer from '../componentes/parteLay/Footer'
 
 const LeyPadra = () => {
