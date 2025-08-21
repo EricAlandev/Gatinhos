@@ -16,8 +16,18 @@ app.use('/assets', express.static('assets'));
 // Servir favicon padrão
 app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // sem conteúdo
 
-// ROTAS DA API
+// Rota raiz: retorna todos os gatos
+app.get("/", (req, res) => {
+  connection.query("SELECT * FROM gatinhos", (err, results) => {
+    if (err) {
+      console.error("Erro /:", err);
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
 
+// ROTAS DA API
 app.get("/cats", (req, res) => {
   connection.query("SELECT * FROM gatinhos", (err, results) => {
     if (err) {
@@ -106,4 +116,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
   console.log(`Servidor rodando na porta ${port}`);
 });
-
