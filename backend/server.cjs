@@ -8,7 +8,7 @@ app.use(express.json());
 
 // Permitir requisições do frontend
 app.use(cors({
-  origin: "http://localhost:5173"
+  origin: "*"
 }));
 
 // Serve arquivos estáticos da pasta /assets
