@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-const connection = require("./db.cjs");
+const connection = require("./backend/db.cjs");
 
 // Middleware
 app.use(express.json());
@@ -105,5 +105,5 @@ app.post("/cats", (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // usa a porta do Railway ou 3000 local
 app.listen(PORT, () => console.log(`API rodando na porta ${PORT}`));
