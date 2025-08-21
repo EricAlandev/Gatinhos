@@ -25,7 +25,7 @@ const HeaderDesk = () => {
                     <NavLink to={'/'}
                     className={({isActive}) =>
                       isActive
-                    ? 'md:p-2.5 md:font-[Inter] md:font-medium md:bg-[#373939] md:text-[#f9f9f9] md:text-[15.5px] duration-150' 
+                    ? 'md:p-2.5 md:font-[Inter] md:font-medium md:bg-[#373939] md:text-[#f9f9f9] md:text-[15.5px] duration-150 ' 
                     : 'text-[gray] md:bg-[#F3F3F3]'
                     }>
                         Só Gatinhos 
@@ -38,7 +38,7 @@ const HeaderDesk = () => {
                     className={({isActive}) =>
                       isActive
                     ? 'md:p-2.5 md:font-[Inter] md:font-medium md:bg-[#373939] md:text-[#f9f9f9] md:text-[15.5px] duration-150' 
-                    : 'text-[gray] md:bg-[#F3F3F3]'
+                    : 'text-[gray] md:bg-[#F3F3F3] '
                     }>
                         Quem Somos
                     </NavLink>
@@ -49,8 +49,8 @@ const HeaderDesk = () => {
                      to={'/gatinhos'}
                     className={({isActive}) =>
                       isActive
-                    ? 'md:p-2.5 md:font-[Inter] md:font-medium md:bg-[#373939] md:text-[#f9f9f9] md:text-[15.5px] duration-150' 
-                    : 'text-[gray] md:bg-[#F3F3F3]'
+                    ? 'md:p-2.5 md:font-[Inter] md:font-medium md:bg-[#373939] md:text-[#f9f9f9] md:text-[15.5px] duration-150 ' 
+                    : 'text-[gray] md:bg-[#F3F3F3] '
                     }>
                         Gatinhos 
                     </NavLink>
@@ -60,8 +60,8 @@ const HeaderDesk = () => {
                     <NavLink to={'/doacoes'}
                     className={({isActive}) =>
                       isActive
-                    ? 'md:p-2.5 md:font-[Inter] md:font-medium md:bg-[#373939] md:text-[#f9f9f9] md:text-[15.5px] duration-150' 
-                    : 'text-[gray] md:bg-[#F3F3F3]'
+                    ? 'md:p-2.5 md:font-[Inter] md:font-medium md:bg-[#373939] md:text-[#f9f9f9] md:text-[15.5px] duration-150 ' 
+                    : 'text-[gray] md:bg-[#F3F3F3] '
                     }>
                         Doações 
                     </NavLink>
