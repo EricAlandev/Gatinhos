@@ -1,91 +1,83 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const app = express();
 const connection = require("./db.cjs");
 
 // Middleware
 app.use(express.json());
 
-// Permitir requisições do frontend
-app.use(cors({
-  origin: "*"
-}));
+// Permitir requisições de qualquer frontend
+app.use(cors({ origin: "*" }));
 
-// Serve arquivos estáticos da pasta /assets
+// Servir arquivos estáticos da pasta /assets
 app.use('/assets', express.static('assets'));
 
-// GET: todos os gatos
+// Servir favicon padrão
+app.get('/favicon.ico', (req, res) => res.sendStatus(204)); // sem conteúdo
+
+// ROTAS DA API
+
 app.get("/cats", (req, res) => {
   connection.query("SELECT * FROM gatinhos", (err, results) => {
-    if (err) return res.status(500).json({ error: err.message });
+    if (err) {
+      console.error("Erro /cats:", err);
+      return res.status(500).json({ error: err.message });
+    }
     res.json(results);
   });
 });
 
 app.get("/sbemvindo", (req, res) => {
-  console.log("Recebida requisição para /Sbemvindo");
   connection.query("SELECT * FROM bemvindo", (err, results) => {
     if (err) {
-      console.log("Erro SQL:", err);
+      console.error("Erro /sbemvindo:", err);
       return res.status(500).json({ error: err.message });
     }
-    console.log("Resultados:", results);
     res.json(results);
   });
 });
 
 app.get("/passo", (req, res) => {
-  console.log("Recebida requisição para /passo");
   connection.query("SELECT * FROM passo", (err, results) => {
     if (err) {
-      console.log("Erro SQL:", err);
+      console.error("Erro /passo:", err);
       return res.status(500).json({ error: err.message });
     }
-    console.log("Resultados:", results);
     res.json(results);
   });
 });
 
 app.get("/falamDnos", (req, res) => {
-  console.log("Recebida requisição para /falamDnos");
   connection.query("SELECT * FROM falamDnos", (err, results) => {
     if (err) {
-      console.log("Erro SQL:", err);
+      console.error("Erro /falamDnos:", err);
       return res.status(500).json({ error: err.message });
     }
-    console.log("Resultados:", results);
     res.json(results);
   });
 });
 
 app.get("/doacoes", (req, res) => {
-  console.log("Recebida requisição para /falamDnos");
   connection.query("SELECT * FROM doacoes", (err, results) => {
     if (err) {
-      console.log("Erro SQL:", err);
+      console.error("Erro /doacoes:", err);
       return res.status(500).json({ error: err.message });
     }
-    console.log("Resultados:", results);
     res.json(results);
   });
 });
 
 app.get("/remedios", (req, res) => {
-  console.log("Recebida requisição para /remedios");
   connection.query("SELECT * FROM remedios", (err, results) => {
     if (err) {
-      console.log("Erro SQL:", err);
+      console.error("Erro /remedios:", err);
       return res.status(500).json({ error: err.message });
     }
-    console.log("Resultados:", results);
     res.json(results);
   });
 });
 
-
-
-
-// GET: gato específico pelo ID
 app.get("/cats/:id", (req, res) => {
   const { id } = req.params;
   connection.query("SELECT * FROM gatinhos WHERE id = ?", [id], (err, results) => {
@@ -95,7 +87,6 @@ app.get("/cats/:id", (req, res) => {
   });
 });
 
-// POST: adicionar um novo gato
 app.post("/cats", (req, res) => {
   const { nome, raca, idade, foto_ulr } = req.body;
   const sql = "INSERT INTO gatinhos (nome, raca, idade, foto_ulr) VALUES (?, ?, ?, ?)";
@@ -105,5 +96,11 @@ app.post("/cats", (req, res) => {
   });
 });
 
-const PORT = process.env.PORT || 3000; // usa a porta do Railway ou 3000 local
+// Tratar rotas inexistentes
+app.use((req, res) => {
+  res.status(404).json({ message: "Endpoint não encontrado" });
+});
+
+// Porta
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`API rodando na porta ${PORT}`));
