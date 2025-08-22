@@ -18,7 +18,7 @@ const OqueFalam = () => {
 
         <section className="max-w-[320px]  md:max-w-[1000.5px] max-h-[140px] md:max-h-[160px] mx-auto mb-[15px]   ">
             
-            {falam.lenght > 0 && (
+            {falam.length > 0 && (
                 <Swiper
                 slidesPerView={1}
             
