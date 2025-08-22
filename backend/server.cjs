@@ -103,9 +103,9 @@ app.get("/passo", async (req, res) => {
   }
 });
 
-app.get("/falamDnos", async (req, res) => {
+app.get("/falamdnos", async (req, res) => {
   try {
-    const [results] = await connection.execute("SELECT * FROM falamDnos");
+    const [results] = await connection.execute("SELECT * FROM falamdnos");
     res.json(results);
   } catch (err) {
     console.error("Erro /falamDnos:", err);

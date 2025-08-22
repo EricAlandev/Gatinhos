@@ -83,7 +83,7 @@ export function FalamDnos() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`${BASE_URL}/falamDnos`)
+    axios.get(`${BASE_URL}/falamdnos`)
       .then(res => {
         const depoimentos = res.data.map(item => ({
           id: item.id,
