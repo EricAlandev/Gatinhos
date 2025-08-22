@@ -7,123 +7,148 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 export function CatGet() {
   const [catList, setCatList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get(`${BASE_URL}/cats`)
       .then(res => {
-        const promises = res.data.map(cat => ({
+        const cats = res.data.map(cat => ({
           id: cat.id,
-          image: cat.foto_ulr,
+          image: cat.foto_ulr || cat.foto_url, // Adicionei fallback
           nome: cat.nome,
-          breed: cat.raca || "Sem raçã definida",
+          breed: cat.raca || "Sem raça definida", // Corrigi o acento
           description: cat.descricao || "-",
           idade: cat.idade
         }));
-        setCatList(promises);
+        setCatList(cats);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch(err => {
+        console.error('Erro ao buscar gatos:', err);
+        setError(err.message);
+        setLoading(false);
+      });
   }, []);
 
-  return { catList, loading };
+  return { catList, loading, error };
 }
 
 export function SlideBV() {
   const [slideCat, setSlideCat] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get(`${BASE_URL}/sbemvindo`)
       .then(res => {
-        const promises = res.data.map(cat => ({
-          id: cat.id,
-          image: cat.foto_url,
-          texto: cat.texto || "-"
+        const slides = res.data.map(item => ({
+          id: item.id,
+          image: item.foto_url,
+          texto: item.texto || "-"
         }));
-        setSlideCat(promises);
+        setSlideCat(slides);
       })
-      .catch(() => 'error');
+      .catch(err => {
+        console.error('Erro ao buscar slides:', err);
+        setError(err.message);
+      });
   }, []);
 
-  return { slideCat };
+  return { slideCat, error };
 }
 
 export function Passos() {
   const [passo, setPasso] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get(`${BASE_URL}/passo`)
       .then(res => {
-        const promises = res.data.map(cat => ({
-          id: cat.id,
-          image: cat.foto_url
+        const passos = res.data.map(item => ({
+          id: item.id,
+          image: item.foto_url
         }));
-        setPasso(promises);
+        setPasso(passos);
       })
-      .catch(() => 'error');
+      .catch(err => {
+        console.error('Erro ao buscar passos:', err);
+        setError(err.message);
+      });
   }, []);
 
-  return { passo };
+  return { passo, error };
 }
 
 export function FalamDnos() {
   const [falam, setFalam] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get(`${BASE_URL}/falamDnos`)
       .then(res => {
-        const promises = res.data.map(cat => ({
-          id: cat.id,
-          nome: cat.nome,
-          descricao: cat.descricao
+        const depoimentos = res.data.map(item => ({
+          id: item.id,
+          nome: item.nome,
+          descricao: item.descricao
         }));
-        setFalam(promises);
+        setFalam(depoimentos);
       })
-      .catch(() => 'error');
+      .catch(err => {
+        console.error('Erro ao buscar depoimentos:', err);
+        setError(err.message);
+      });
   }, []);
 
-  return { falam };
+  return { falam, error };
 }
 
 export function Doacoes() {
   const [doacao, setDoacao] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get(`${BASE_URL}/doacoes`)
       .then(res => {
-        const promises = res.data.map(cat => ({
-          id: cat.id,
-          image: cat.foto_url,
-          descricao: cat.descricao
+        const doacoes = res.data.map(item => ({
+          id: item.id,
+          image: item.foto_url,
+          descricao: item.descricao
         }));
-        setDoacao(promises);
+        setDoacao(doacoes);
       })
-      .catch(() => 'error');
+      .catch(err => {
+        console.error('Erro ao buscar doações:', err);
+        setError(err.message);
+      });
   }, []);
 
   const GetById = (id) => doacao.find(d => d.id === id);
 
-  return { doacao, GetById };
+  return { doacao, GetById, error };
 }
 
 export function Remedios() {
   const [remedio, setRemedio] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get(`${BASE_URL}/remedios`)
       .then(res => {
-        const promises = res.data.map(cat => ({
-          id: cat.id,
-          imageT: cat.imaget,
-          imageB: cat.imageb,
-          titulo: cat.titulo,
-          descricao: cat.remedio
+        const remedios = res.data.map(item => ({
+          id: item.id,
+          imageT: item.imaget || item.imageT, // Fallback
+          imageB: item.imageb || item.imageB, // Fallback
+          titulo: item.titulo,
+          descricao: item.remedio || item.descricao // Fallback
         }));
-        setRemedio(promises);
+        setRemedio(remedios);
       })
-      .catch(() => 'error');
+      .catch(err => {
+        console.error('Erro ao buscar remédios:', err);
+        setError(err.message);
+      });
   }, []);
 
-  const GetById = (id) => remedio.find(d => d.id == id);
+  const GetById = (id) => remedio.find(d => d.id === id); // Corrigido para ===
 
-  return { remedio, GetById };
+  return { remedio, GetById, error };
 }
