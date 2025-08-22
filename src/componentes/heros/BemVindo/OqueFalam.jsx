@@ -6,6 +6,10 @@ const OqueFalam = () => {
 
     const {falam} = FalamDnos()
 
+    // Se ainda não tem dados, não renderiza nada ou mostra loading
+    if (falam.length === 0) return <p>Carregando...</p>;
+    if (error) return <p>Erro: {error}</p>;
+
     return(
      <main>
         <section className="flex md:max-w-[1000.5px] md:mx-auto  mt-[10px] pb-[10px] md:pb-[20px]">
