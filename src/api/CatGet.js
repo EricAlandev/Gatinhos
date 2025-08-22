@@ -80,7 +80,6 @@ export function Passos() {
 
 export function FalamDnos() {
   const [falam, setFalam] = useState([]);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios.get(`${BASE_URL}/falamdnos`)
@@ -94,11 +93,10 @@ export function FalamDnos() {
       })
       .catch(err => {
         console.error('Erro ao buscar depoimentos:', err);
-        setError(err.message);
       });
   }, []);
 
-  return { falam, error };
+  return { falam };
 }
 
 export function Doacoes() {
