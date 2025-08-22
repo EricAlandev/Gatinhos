@@ -4,7 +4,7 @@ import { FalamDnos } from "../../../api/CatGet"
 
 const OqueFalam = () => {
 
-    const {falam} = FalamDnos()
+    const {falam,error} = FalamDnos()
 
     // Se ainda não tem dados, não renderiza nada ou mostra loading
     if (falam.length === 0) return <p>Carregando...</p>;
