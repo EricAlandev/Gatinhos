@@ -17,7 +17,9 @@ const OqueFalam = () => {
         </section>   
 
         <section className="max-w-[320px]  md:max-w-[1000.5px] max-h-[140px] md:max-h-[160px] mx-auto mb-[15px]   ">
-            <Swiper
+            
+            {falam.lenght > 0 && (
+                <Swiper
                 slidesPerView={1}
             
             breakpoints={{          
@@ -58,6 +60,7 @@ const OqueFalam = () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
+            )}
         </section>
      </main>
     )
