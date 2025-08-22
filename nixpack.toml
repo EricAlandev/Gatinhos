@@ -1,8 +1,0 @@
-[phases]
-setup = "nodejs_18"
-install = "npm ci"
-build = "npm run build"
-start = "npm run start"
-
-[build]
-baseImage = "node:18-alpine"
