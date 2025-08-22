@@ -138,9 +138,8 @@ app.use((req, res) => {
   res.status(404).json({ message: "Endpoint não encontrado" });
 });
 
-// Porta - OBRIGATÓRIO para Railway
-const port = process.env.PORT || 8080;
+
+const port = process.env.PORT || 3000;
 app.listen(port, '0.0.0.0', () => {
   console.log(`🚀 Servidor rodando na porta ${port}`);
-  console.log(`📊 Variáveis MySQL: ${process.env.MYSQL_HOST ? 'Configuradas' : 'Não configuradas'}`);
 });
