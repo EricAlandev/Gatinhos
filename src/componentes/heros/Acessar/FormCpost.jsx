@@ -88,10 +88,10 @@ export default function Cadastro() {
           />
         </div>
 
-        <div>
+        <div className='md:flex md:justify-center'>
             <Link
             to={'/entrar'}
-            className='w-max pb-[1px] border-b-[0.5px] '>
+            className='w-max md:mt-[10px] pb-[1px] border-b-[0.5px] md:hover:transform md:hover:scale-[1.03] duration-120'>
                 Já possuo conta
             </Link>
         </div>
