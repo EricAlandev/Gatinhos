@@ -1,6 +1,8 @@
+
+require("dotenv").config();  
+
 const express = require("express");
 const cors = require("cors");
-const path = require("path");
 const app = express();
 const connection = require("./db.cjs");
 
@@ -130,6 +132,99 @@ app.get("/remedios", async (req, res) => {
   } catch (err) {
     console.error("Erro /remedios:", err);
     res.status(500).json({ error: err.message });
+  }
+});
+
+//POST
+app.post("/contato", async (req, res) => {
+  try {
+    const { nome, email, mensagem } = req.body;
+
+    // Aqui você poderia salvar no banco, por exemplo:
+    // const sql = "INSERT INTO contatos (nome, email, mensagem) VALUES (?, ?, ?)";
+    // const [results] = await connection.execute(sql, [nome, email, mensagem]);
+
+    // Mas se quiser só testar, podemos retornar o JSON direto:
+    res.status(201).json({
+      success: true,
+      message: "Mensagem recebida com sucesso!",
+      data: { nome, email, mensagem }
+    });
+  } catch (err) {
+    console.error("Erro POST /contato:", err);
+    res.status(500).json({
+      success: false,
+      message: "Erro ao enviar mensagem",
+      error: err.message
+    });
+  }
+});
+
+const jwt = require("jsonwebtoken");
+
+// rota de login
+app.post("/entrar", async (req, res) => {
+  try {
+    const { email, senha } = req.body;
+
+    // 1️⃣ Buscar usuário no banco pelo email
+    const [rows] = await connection.execute(
+      "SELECT * FROM usuarios WHERE email = ?",
+      [email]
+    );
+
+    if (rows.length === 0) {
+      return res.status(401).json({ success: false, message: "Email ou senha inválidos" });
+    }
+
+    const user = rows[0];
+
+    // 2️⃣ Comparar a senha enviada com o hash do banco
+    const senhaValida = await bcrypt.compare(senha, user.senha);
+    if (!senhaValida) {
+      return res.status(401).json({ success: false, message: "Email ou senha inválidos" });
+    }
+
+    // 3️⃣ Gerar token JWT
+    const token = jwt.sign(
+      { id: user.id, email: user.email }, // payload - infos
+      process.env.JWT_SECRET || "segredo_super_forte", // segredo - string pro serv reconhecer e autentificar
+      { expiresIn: "1h" } // expiração - tempo
+    ); 
+
+    // 4️⃣ Retornar sucesso e token
+    res.json({
+      success: true,
+      message: "Login realizado com sucesso!",
+      token,
+      user: { id: user.id,nome: user.nome, email: user.email }
+    });
+
+  } catch (err) {
+    console.error("Erro POST /entrar:", err);
+    res.status(500).json({ success: false, message: "Erro ao entrar", error: err.message });
+  }
+});
+
+
+const bcrypt = require("bcryptjs");
+
+//rota cadastro.
+app.post("/cadastro", async (req, res) => {
+  try {
+    const { email, senha } = req.body;
+
+    // gerar hash
+    const hashedPassword = await bcrypt.hash(senha, 10);
+
+    // salvar no banco
+    const sql = "INSERT INTO usuarios (email, senha) VALUES (?, ?)";
+    await connection.execute(sql, [email, hashedPassword]);
+
+    res.status(201).json({ success: true, message: "Usuário cadastrado com sucesso!" });
+  } catch (err) {
+    console.error("Erro POST /cadastro:", err);
+    res.status(500).json({ success: false, message: "Erro ao cadastrar", error: err.message });
   }
 });
 
