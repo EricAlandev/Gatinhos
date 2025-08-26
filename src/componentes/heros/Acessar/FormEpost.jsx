@@ -2,11 +2,12 @@
 //Formulário para entrar na conta
 
 import { useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+import axios from 'axios';
 
 export default function Entrar() {
+  const navigate = useNavigate()
   // Estado do formulário
   const [formData, setFormData] = useState({
     email:'',
@@ -33,6 +34,8 @@ export default function Entrar() {
 
       // Limpar formulário
       setFormData({ email: '', senha: '' });
+
+      navigate('/userPage')
     } catch (error) {
       console.error('Erro ao cadastrar:', error);
       alert('Ocorreu um erro. Tente novamente.');

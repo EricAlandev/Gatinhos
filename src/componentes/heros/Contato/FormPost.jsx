@@ -22,8 +22,9 @@ export default function Contato() {
 
     try {
       const response = await axios.post(`${BASE_URL}/contato`, formData);
-      console.log('Usuário criado:', response.data);
+      console.log('contato recebido:', response.data);
       alert(response.data.message);
+
 
       // Limpar formulário
       setFormData({ nome: '', email: '', mensagem: '' });

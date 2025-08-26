@@ -147,7 +147,7 @@ app.post("/contato", async (req, res) => {
     // Mas se quiser só testar, podemos retornar o JSON direto:
     res.status(201).json({
       success: true,
-      message: "Mensagem recebida com sucesso!",
+      message: "Contato enviado para nós!",
       data: { nome, email, mensagem }
     });
   } catch (err) {
@@ -160,15 +160,18 @@ app.post("/contato", async (req, res) => {
   }
 });
 
+//feito pra gerar o token.
 const jwt = require("jsonwebtoken");
+
+const bcrypt = require("bcryptjs");
 
 // rota de login
 app.post("/entrar", async (req, res) => {
   try {
     const { email, senha } = req.body;
 
-    // 1️⃣ Buscar usuário no banco pelo email
-    const [rows] = await connection.execute(
+    // 1️⃣ Buscar usuário no banco pEsselo email 
+    const [rows] = await connection.execute( //sempre que for mandar pro db, precisa do connection.execute
       "SELECT * FROM usuarios WHERE email = ?",
       [email]
     );
@@ -180,7 +183,7 @@ app.post("/entrar", async (req, res) => {
     const user = rows[0];
 
     // 2️⃣ Comparar a senha enviada com o hash do banco
-    const senhaValida = await bcrypt.compare(senha, user.senha);
+    const senhaValida = await bcrypt.compare(senha, user.senha); //retornar True ou false
     if (!senhaValida) {
       return res.status(401).json({ success: false, message: "Email ou senha inválidos" });
     }
@@ -197,7 +200,7 @@ app.post("/entrar", async (req, res) => {
       success: true,
       message: "Login realizado com sucesso!",
       token,
-      user: { id: user.id,nome: user.nome, email: user.email }
+      user: { id: user.id,nome: user.nome, email: user.email}
     });
 
   } catch (err) {
@@ -206,20 +209,17 @@ app.post("/entrar", async (req, res) => {
   }
 });
 
-
-const bcrypt = require("bcryptjs");
-
 //rota cadastro.
 app.post("/cadastro", async (req, res) => {
   try {
-    const { email, senha } = req.body;
+    const {nome, email, senha } = req.body;
 
     // gerar hash
     const hashedPassword = await bcrypt.hash(senha, 10);
 
     // salvar no banco
-    const sql = "INSERT INTO usuarios (email, senha) VALUES (?, ?)";
-    await connection.execute(sql, [email, hashedPassword]);
+    const sql = "INSERT INTO usuarios (nome,email, senha) VALUES (?, ?, ?)";
+    await connection.execute(sql, [nome, email, hashedPassword]);
 
     res.status(201).json({ success: true, message: "Usuário cadastrado com sucesso!" });
   } catch (err) {
@@ -227,6 +227,64 @@ app.post("/cadastro", async (req, res) => {
     res.status(500).json({ success: false, message: "Erro ao cadastrar", error: err.message });
   }
 });
+
+// Atualizar usuário usando o id do token ou do corpo da requisição
+app.put("/usuarios", async (req, res) => {
+  try {
+    // Pegar o id do corpo da requisição
+    const { id, nome, email, senha } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ success: false, message: "ID do usuário é obrigatório" });
+    }
+
+    // Se houver senha, gera hash
+    const hashedPassword = senha ? await bcrypt.hash(senha, 10) : null;
+
+    // Montar query dinâmica
+    const fields = []; //SET do database
+    const values = []; //Valores que vão ser posto em cada ?
+
+    if (nome) {
+      fields.push("nome = ?"); // aqui ficaria SET nome = ? (? = valor a ser posto)
+      values.push(nome); // WHERE, pra identificar onde mudar
+    }
+    if (email) {
+      fields.push("email = ?");
+      values.push(email);
+    }
+    if (hashedPassword) {
+      fields.push("senha = ?");
+      values.push(hashedPassword);
+    }
+
+    if (fields.length === 0) {
+      return res.status(400).json({ success: false, message: "Nenhum campo para atualizar" });
+    }
+
+    values.push(id); // para WHERE id = ?
+
+    const sql = `UPDATE usuarios SET ${fields.join(", ")} WHERE id = ?`;
+    const [result] = await connection.execute(sql, values);
+    /*O uso do [] é sempre usado em connection execute
+      Ou seja, o connection execute sempre retorna 2 valores. Como os dados que você quer e por exemplo dados de análise do processo. 
+      Dai, o uso do colchete é pra ele retornar apenas o que você quer.
+      */
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ success: false, message: "Usuário não encontrado" });
+    }
+
+    // Retorna usuário atualizado
+    const [rows] = await connection.execute("SELECT id, nome, email FROM usuarios WHERE id = ?", [id]);
+
+    res.json({ success: true, message: "Usuário atualizado com sucesso!", data: rows[0] });
+  } catch (err) {
+    console.error("Erro PUT /usuarios:", err);
+    res.status(500).json({ success: false, message: "Erro ao atualizar usuário", error: err.message });
+  }
+});
+
 
 // Tratar rotas inexistentes
 app.use((req, res) => {

@@ -9,6 +9,7 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 export default function Cadastro() {
   // Estado do formulário
   const [formData, setFormData] = useState({
+    nome: '',
     email:'',
     senha: '',
   });
@@ -29,7 +30,7 @@ export default function Cadastro() {
       alert(response.data.message);
 
       // Limpar formulário
-      setFormData({ email: '', senha: '' });
+      setFormData({nome: '', email: '', senha: '' });
     } catch (error) {
       console.error('Erro ao cadastrar:', error);
       alert('Ocorreu um erro. Tente novamente.');
@@ -53,6 +54,25 @@ export default function Cadastro() {
       <form onSubmit={handleSubmit}
       className='md:max-w-[1200px] md:mx-auto '
       >
+
+        <div className='flex flex-col md:max-w-[400px] md:mx-auto md:mt-[10px]'>
+          <label htmlFor='nome'
+          className='mt-[12px] md:mt-[10px] font-[Inter] text-[15px] cursor-pointer'>
+            Nome
+          </label><br />
+          
+          <input
+            type="text"
+            id='nome'
+            name="nome" // name precisa bater com a chave do estado
+            value={formData.nome}
+            onChange={handleChange} // usa a função genérica
+            placeholder="Informe o seu nome completo"
+            className='mt-[-18px] md:mt-[-20px] mb-[15px] px-2 md:py-1 py-2.5  border-1  border-[gray] rounded-[4px] placeholder:pl-0.5 placeholder:font-[Inter]'
+            required
+          />
+        </div>
+
         <div className='flex flex-col md:max-w-[400px] md:mx-auto md:mt-[10px]'>
           <label htmlFor='email'
           className='mt-[12px] md:mt-[10px] font-[Inter] text-[15px] cursor-pointer'>
@@ -65,7 +85,7 @@ export default function Cadastro() {
             name="email" // name precisa bater com a chave do estado
             value={formData.email}
             onChange={handleChange} // usa a função genérica
-            placeholder="Informe o seu nome completo"
+            placeholder="Informe o seu email completo"
             className='mt-[-18px] md:mt-[-20px] mb-[15px] px-2 md:py-1 py-2.5  border-1  border-[gray] rounded-[4px] placeholder:pl-0.5 placeholder:font-[Inter]'
             required
           />
